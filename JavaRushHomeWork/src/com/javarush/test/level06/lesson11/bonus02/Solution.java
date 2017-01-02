@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 бабушка Мурка
 папа Котофей
 мама Василиса
-сын Мурчикl
+сын Мурчик
 дочь Пушинка
 
 Пример вывода:
@@ -34,50 +34,63 @@ public class Solution
     {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        String motherName = reader.readLine();
-        Cat catMother = new Cat(motherName);
+        //String grandfaName = reader.readLine();
+        Cat catGrandfa = new Cat(reader.readLine());
 
-        String fatherName = reader.readLine();
-        Cat catFather = new Cat(fatherName);
+        //String grandmaName = reader.readLine();
+        Cat catGrandma = new Cat(reader.readLine());
 
-        String daughterName = reader.readLine();
-        Cat catDaughter = new Cat(daughterName, catMother, catFather);
+        //String fatherName = reader.readLine();
+        Cat catFather = new Cat(reader.readLine(), catGrandfa, null);
 
+        //String motherName = reader.readLine();
+        Cat catMother = new Cat(reader.readLine(), null, catGrandma);
+
+        //String sonName = reader.readLine();
+        Cat catSon = new Cat(reader.readLine(), catFather, catMother);
+
+        //String daughterName = reader.readLine();
+        Cat catDaughter = new Cat(reader.readLine(), catFather, catMother);
+
+        System.out.println(catGrandfa);
+        System.out.println(catGrandma);
+        System.out.println(catFather);
         System.out.println(catMother);
+        System.out.println(catSon);
         System.out.println(catDaughter);
     }
 
     public static class Cat
     {
         private String name;
-        private Cat mother;
-        private Cat father;
+        private Cat parentFather;
+        private Cat parentMother;
 
         Cat(String name)
         {
             this.name = name;
         }
 
-        Cat(String name, Cat mother)
+        Cat(String name, Cat parentFather, Cat parentMother)
         {
             this.name = name;
-            this.mother = mother;
+            this.parentFather = parentFather;
+            this.parentMother = parentMother;
+
         }
 
-        Cat(String name, Cat mother, Cat father)
-        {
-            this.name = name;
-            this.mother = mother;
-            this.father = father;
-        }
 
         @Override
         public String toString()
         {
-            if (mother == null)
-                return "Cat name is " + name + ", no mother ";
+            if (parentMother == null && parentFather == null)
+                return "Cat name is " + name + ", no mother, no father";
+            else if (parentMother == null)
+                return "Cat name is " + name + ", no mother" + ", father is " + parentFather.name;
+            else if (parentFather == null)
+                return "Cat name is " + name + ", mother is " + parentMother.name + ", no father";
             else
-                return "Cat name is " + name + ", mother is " + mother.name;
+                return "Cat name is " + name + ", mother is " + parentMother.name + ", father is " + parentFather.name;
         }
     }
 
